@@ -20,7 +20,27 @@ router.get('/:id', (req, res) => {
   Projects.getById(id)
   .then(project => {
     if (project) {
-      res.json(project);
+      Projects.getTasksById(id) //If project id is found, get tasks by id
+      .then(task => {
+          Projects.getResourcesById(id) //Then get resources by id
+          .then(resource => {
+            let addTasks = []
+            let addResources = []
+            if (task.length) {
+              addTasks = task  //If tasks exist, set addTasks
+            }
+            if (resource.length) {
+              addResources = resource //If resources exist, set addResources
+            }
+            res.json({...project[0], tasks: addTasks, resources: addResources}); //Spread project[selecting id to remove from returned array], then add tasks, and resources
+          })
+          .catch(err => {
+            res.status(500).json({ message: 'Failed at nested resource' });
+          });
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'Failed at nested tasks' });
+      });
     } else {
       res.status(404).json({ message: 'Could not get project with given id.' })
     }
@@ -43,6 +63,22 @@ router.get('/:id/tasks', (req, res) => {
   })
   .catch(err => {
     res.status(500).json({ message: 'Failed to get task' });
+  });
+});
+
+router.get('/:id/resources', (req, res) => {
+  const { id } = req.params;
+
+  Projects.getResources(id)
+  .then(resource => {
+    if (resource.length) {
+      res.json(resource);
+    } else {
+      res.status(404).json({ message: 'Could not get resource for given project' })
+    }
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to get resource' });
   });
 });
 
