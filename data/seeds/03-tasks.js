@@ -1,9 +1,9 @@
 
 exports.seed = function(knex) {
-  return knex('tasks').del()
+  return knex('tasks').truncate()
     .then(function () {
       return knex('tasks').insert([
-        {id: 1, description: 'Setup project', notes:'Commit regularly', completed:true, project_id: 1},
+        {id: 1, description: 'Setup project', notes:'Commit regularly', project_id: 1},
         {id: 2, description: 'Meet MVP', notes:'Can be done quickly', project_id: 1},
         {id: 3, description: 'Stretch goals', notes:'Yay!', project_id: 1},
         {id: 4, description: 'Decide what toppings', notes:'So many toppings, so little time...', project_id: 2},

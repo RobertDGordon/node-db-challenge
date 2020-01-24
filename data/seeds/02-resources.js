@@ -1,6 +1,6 @@
 
 exports.seed = function(knex) {
-  return knex('resources').del()
+  return knex('resources').truncate()
     .then(function () {
       return knex('resources').insert([
         {id: 1, name: 'Computer', description:'One of my favorite things in the whole world', project_id: 1},

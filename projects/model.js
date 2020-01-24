@@ -30,7 +30,7 @@ function getById(id) {
 function getTasks(id) {
   return db('tasks as t')
     .join('projects as p', 'p.id', 't.project_id')
-    .select('p.name', 't.id as task_id', 't.description', 't.notes')
+    .select('p.name', 't.id as task_id', 't.description', 't.notes', 't.completed')
     .where('t.project_id', id)
     .orderBy('t.id');
 }

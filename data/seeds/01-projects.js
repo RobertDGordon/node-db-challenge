@@ -1,6 +1,6 @@
 
 exports.seed = function(knex) {
-  return knex('projects').del()
+  return knex('projects').truncate()
     .then(function () {
       return knex('projects').insert([
         {id: 1, name: 'Sprint Challenge', description: 'Lambda Node Database'},
